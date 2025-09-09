@@ -46,9 +46,6 @@ import com.google.protobuf.ByteString;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-import jsinterop.annotations.JsMethod;
-import jsinterop.annotations.JsProperty;
-
 /**
  * The ChatBot component is a non-visible component for chatting with an AI
  * chatbot. This version uses a proxy run by MIT that in turn uses the ChatGPT
@@ -63,11 +60,12 @@ import jsinterop.annotations.JsProperty;
   "uses OpenAI's ChatGPT API. This component is considered experimental.",
     category = ComponentCategory.EXPERIMENTAL,
     nonVisible = true,
+    webemulation = true,
     iconName = "images/chatbot.png")
 @UsesPermissions(permissionNames = "android.permission.INTERNET")
 @UsesLibraries(libraries = "protobuf-java-3.0.0.jar")
 @SimpleObject
-public final class ChatBot extends AndroidNonvisibleComponent {
+public class ChatBot extends AndroidNonvisibleComponent {
 
   private static final String CHATBOT_SERVICE_URL = AppInventorFeatures.chatBotHost() + "chat/v1";
   private static final String LOG_TAG = "ChatBot";
@@ -93,7 +91,6 @@ public final class ChatBot extends AndroidNonvisibleComponent {
 
   @SimpleFunction(description = "Reset the current conversation, Chat bot will forget " +
     "any previous conversation when responding in the future.")
-  @JsMethod(name = "ResetConversation")
   public void ResetConversation() {
     this.uuid = "";
   }
@@ -101,7 +98,6 @@ public final class ChatBot extends AndroidNonvisibleComponent {
   @SimpleFunction(description = "Ask a question of the Chat Bot. Successive calls will " +
     "remember information from earlier in the conversation. Use the \"ResetConversation\" " +
     "function to reset for a new conversation.")
-  @JsMethod(name = "Converse")
   public void Converse(final String question) {
 
     AsynchUtil.runAsynchronously(new Runnable() {
@@ -185,7 +181,6 @@ public final class ChatBot extends AndroidNonvisibleComponent {
   @SimpleFunction(description = "Ask a question of the Chat Bot using an Image. Successive calls will " +
     "remember information from earlier in the conversation. Use the \"ResetConversation\" " +
     "function to reset for a new conversation.")
-  @JsMethod(name = "ConverseWithImage")
   public void ConverseWithImage(final String question, final Object source) {
     try {
       final Bitmap bitmap = loadImage(source);
@@ -234,7 +229,6 @@ public final class ChatBot extends AndroidNonvisibleComponent {
     description = "The \"System\" value given to ChatGPT. It is " +
     "used to set the tone of a conversation. For example: \"You are a funny person.\"",
     userVisible = true)
-  @JsProperty(name = "System")
   public String System() {
     return system;
   }
@@ -244,7 +238,6 @@ public final class ChatBot extends AndroidNonvisibleComponent {
   @SimpleProperty(description = "The \"System\" value given to ChatGPT. It is " +
     "used to set the tone of a conversation. For example: \"You are a funny person.\"",
     userVisible = true)
-  @JsProperty(name = "System")
   public void System(String system) {
     this.system = system;
   }
@@ -260,7 +253,6 @@ public final class ChatBot extends AndroidNonvisibleComponent {
   @SimpleProperty(description = "The MIT Access token to use. MIT App Inventor will automatically fill this " +
     "value in. You should not need to change it.",
     userVisible = true, category = PropertyCategory.ADVANCED)
-  @JsProperty(name = "Token")
   public void Token(String token) {
     this.token = token;
   }
@@ -278,13 +270,11 @@ public final class ChatBot extends AndroidNonvisibleComponent {
   @SimpleProperty(category = PropertyCategory.BEHAVIOR,
       description = "A ChatGPT API Key. If provided, it will be used instead of " +
          "the embedded APIKEY in the ChatBot proxy server")
-  @JsProperty(name = "ApiKey")
   public void ApiKey(String apikey) {
     this.apiKey = apikey;
   }
 
   @SimpleProperty
-  @JsProperty(name = "ApiKey")
   public String ApiKey() {
     return this.apiKey;
   }
@@ -298,7 +288,6 @@ public final class ChatBot extends AndroidNonvisibleComponent {
     "See https://appinv.us/chatbot for the current list of supported " +
     "providers.",
     userVisible = true)
-  @JsProperty(name = "Provider")
   public String Provider() {
     return provider;
   }
@@ -309,7 +298,6 @@ public final class ChatBot extends AndroidNonvisibleComponent {
     "See https://appinv.us/chatbot for the current list of supported " +
     "providers.",
     userVisible = true)
-  @JsProperty(name = "Provider")
   public void Provider(@Provider String provider) {
     this.provider = provider;
   }
@@ -324,7 +312,6 @@ public final class ChatBot extends AndroidNonvisibleComponent {
     "models. Leaving this blank will result in the default model set by " +
     "the provider being used",
     userVisible = true)
-  @JsProperty(name = "Model")
   public String Model() {
     return model;
   }
@@ -336,7 +323,6 @@ public final class ChatBot extends AndroidNonvisibleComponent {
     "models. Leaving this blank will result in the default model set by " +
     "the provider being used",
     userVisible = true)
-  @JsProperty(name = "Model")
   public void Model(@ProviderModel String model) {
     this.model = model;
   }

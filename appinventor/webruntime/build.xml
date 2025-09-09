@@ -87,6 +87,7 @@
     <java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler">
       <classpath>
         <pathelement location="src" />
+        <pathelement location="../build/components/WebEmulator/src" />
         <pathelement location="../components/build/AnnotationProcessors.jar" />
         <pathelement location="${lib.dir}/gwt-android/gwt-android-emu-0.6.0.jar" />
         <pathelement location="${lib.dir}/gwt-android/androidemu-0.6.0-sources.jar" />

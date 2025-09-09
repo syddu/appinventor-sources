@@ -23,9 +23,10 @@ import com.google.appinventor.components.common.YaVersion;
     "of its appearance can be changed, as well as whether it is clickable " +
     "(<code>Enabled</code>), can be changed in the Designer or in the Blocks " +
     "Editor.",
+    webemulation = true,
     iconName = "images/button.png")
 @SimpleObject
-public final class Button extends ButtonBase {
+public class Button extends ButtonBase {
 
   /**
    * Creates a new Button component.

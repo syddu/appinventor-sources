@@ -37,9 +37,6 @@ import com.google.appinventor.components.common.ComponentCategory;
 import com.google.appinventor.components.common.PropertyTypeConstants;
 import com.google.appinventor.components.common.YaVersion;
 
-import jsinterop.annotations.JsMethod;
-import jsinterop.annotations.JsProperty;
-
 /**
  * ![SpeechRecognizer icon](images/speechrecognizer.png)
  *
@@ -56,8 +53,8 @@ import jsinterop.annotations.JsProperty;
     description = "Component for using Voice Recognition to convert from speech to text",
     category = ComponentCategory.MEDIA,
     nonVisible = true,
+    webemulation = true,
     iconName = "images/speechRecognizer.png")
-
 @SimpleObject
 @UsesPermissions({RECORD_AUDIO, INTERNET})
 public class SpeechRecognizer extends AndroidNonvisibleComponent
@@ -100,13 +97,11 @@ public class SpeechRecognizer extends AndroidNonvisibleComponent
    * @return the target language for recognition
    */
   @SimpleProperty(category = PropertyCategory.BEHAVIOR)
-  @JsProperty(name = "Language")
   public String Language() {
     return language;
   }
 
   @SimpleProperty
-  @JsProperty(name = "Language")
   public void Language(String language) {
     this.language = language;
     if (TextUtils.isEmpty(language)) {
@@ -121,7 +116,6 @@ public class SpeechRecognizer extends AndroidNonvisibleComponent
    */
   @SimpleProperty(
       category = PropertyCategory.BEHAVIOR)
-  @JsProperty(name = "Result")
   public String Result() {
     return result;
   }
@@ -131,7 +125,6 @@ public class SpeechRecognizer extends AndroidNonvisibleComponent
    * {@link #AfterGettingText(String, boolean)} event when the result is available.
    */
   @SimpleFunction
-  @JsMethod(name = "GetText")
   public void GetText() {
     // Need to check if we have RECORD_AUDIO permission
     if (!havePermission) {
@@ -167,7 +160,6 @@ public class SpeechRecognizer extends AndroidNonvisibleComponent
    * set to `false`{:.logic.block}.
    */
   @SimpleFunction
-  @JsMethod(name = "Stop")
   public void Stop() {
     if (speechRecognizerController != null) {
       speechRecognizerController.stop();
@@ -234,7 +226,6 @@ public class SpeechRecognizer extends AndroidNonvisibleComponent
   @SimpleProperty(
       category = PropertyCategory.BEHAVIOR,
       description = "If true, an app can retain their older behaviour.")
-  @JsProperty(name = "UseLegacy")
   public boolean UseLegacy() {
     return useLegacy;
   }
@@ -254,7 +245,6 @@ public class SpeechRecognizer extends AndroidNonvisibleComponent
   @SimpleProperty(description = "If true, a separate dialog is used to recognize speech "
       + "(the default). If false, speech is recognized in the background and "
       + "partial results are also provided.")
-  @JsProperty(name = "UseLegacy")
   @UsesQueries(intents = {
       @IntentFilterElement(actionElements = {
           @ActionElement(name = "android.speech.RecognitionService")

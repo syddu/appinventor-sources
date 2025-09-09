@@ -269,6 +269,16 @@
     <copy todir="${client.pkg.dir}/editor/simple/components/i18n">
       <fileset dir="${AndroidRuntime-class.dir}">
         <include name="*.java"/>
+        <exclude name="ComponentFactory.java" />
+      </fileset>
+    </copy>
+    <property name="webemu.pkg.dir" value="${public.build.dir}/WebEmulator/src/edu/mit/appinventor/webemu"/>
+    <copy todir="${webemu.pkg.dir}">
+      <fileset dir="${AndroidRuntime-class.dir}">
+        <include name="ComponentFactory.java" />
+      </fileset>
+      <fileset dir="${AndroidRuntime-class.dir}/edu/mit/appinventor/webemu">
+        <include name="*.java"/>
       </fileset>
     </copy>
     <copy todir="${appinventor.dir}/docs/markdown/reference/components/">

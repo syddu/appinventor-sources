@@ -35,9 +35,6 @@ import com.google.appinventor.components.runtime.util.SdkLevel;
 import com.google.appinventor.components.runtime.util.TiramisuUtil;
 import java.io.IOException;
 
-import jsinterop.annotations.JsMethod;
-import jsinterop.annotations.JsProperty;
-
 // TODO: This implementation does nothing about releasing the Media
 // Player resources when the application stops.  This needs to be handled
 // at the application level, not just at the component level.
@@ -84,10 +81,11 @@ import jsinterop.annotations.JsProperty;
         "files, such as sound effects.</p>",
     category = ComponentCategory.MEDIA,
     nonVisible = true,
+    webemulation = true,
     iconName = "images/player.png")
 @SimpleObject
 @UsesPermissions(permissionNames = "android.permission.VIBRATE, android.permission.INTERNET")
-public final class Player extends AndroidNonvisibleComponent
+public class Player extends AndroidNonvisibleComponent
     implements Component, OnCompletionListener, OnPauseListener, OnResumeListener, OnDestroyListener, OnStopListener, Deleteable {
 
   private MediaPlayer player;
@@ -164,7 +162,6 @@ public final class Player extends AndroidNonvisibleComponent
    */
   @SimpleProperty(
       category = PropertyCategory.BEHAVIOR)
-  @JsProperty(name = "Source")
   public String Source() {
     return sourcePath;
   }
@@ -181,7 +178,6 @@ public final class Player extends AndroidNonvisibleComponent
   @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_ASSET,
       defaultValue = "")
   @SimpleProperty
-  @JsProperty(name = "Source")
   @UsesPermissions({READ_EXTERNAL_STORAGE, READ_MEDIA_AUDIO})
   public void Source(@Asset String path) {
     final String tempPath = (path == null) ? "" : path;
@@ -257,7 +253,6 @@ public final class Player extends AndroidNonvisibleComponent
   @SimpleProperty(
       description = "Reports whether the media is playing",
       category = PropertyCategory.BEHAVIOR)
-  @JsProperty(name = "IsPlaying")
   public boolean IsPlaying() {
     if (playerState == State.PREPARED || playerState == State.PLAYING) {
       return player.isPlaying();
@@ -272,7 +267,6 @@ public final class Player extends AndroidNonvisibleComponent
       description = "If true, the player will loop when it plays. Setting Loop while the player " +
           "is playing will affect the current playing.",
       category = PropertyCategory.BEHAVIOR)
-  @JsProperty(name = "Loop")
   public boolean Loop() {
     return loop;
   }
@@ -287,7 +281,6 @@ public final class Player extends AndroidNonvisibleComponent
       editorType = PropertyTypeConstants.PROPERTY_TYPE_BOOLEAN,
       defaultValue = "False")
   @SimpleProperty
-  @JsProperty(name = "Loop")
   public void Loop(boolean shouldLoop) {
     // set the desired looping right now if the player is prepared.
     if (playerState == State.PREPARED || playerState == State.PLAYING || playerState == State.PAUSED_BY_USER) {
@@ -309,7 +302,6 @@ public final class Player extends AndroidNonvisibleComponent
   @SimpleProperty(
       description = "Sets the volume to a number between 0 and 100",
       category = PropertyCategory.BEHAVIOR)
-  @JsProperty(name = "Volume")
   public void Volume(int vol) {
     if (playerState == State.PREPARED || playerState == State.PLAYING || playerState == State.PAUSED_BY_USER) {
       if (vol > 100 || vol < 0) {
@@ -330,7 +322,6 @@ public final class Player extends AndroidNonvisibleComponent
           "if false (default option), the player continues playing"+
           " whenever the current screen is displaying or not.",
       category = PropertyCategory.BEHAVIOR)
-  @JsProperty(name = "PlayOnlyInForeground")
   public boolean PlayOnlyInForeground() {
     return playOnlyInForeground;
   }
@@ -346,7 +337,6 @@ public final class Player extends AndroidNonvisibleComponent
       editorType = PropertyTypeConstants.PROPERTY_TYPE_BOOLEAN,
       defaultValue = "False")
   @SimpleProperty
-  @JsProperty(name = "PlayOnlyInForeground")
   public void PlayOnlyInForeground(boolean shouldForeground) {
     playOnlyInForeground = shouldForeground;
   }
@@ -356,7 +346,6 @@ public final class Player extends AndroidNonvisibleComponent
    * If it was previously stopped, it starts from the beginning.
    */
   @SimpleFunction
-  @JsMethod(name = "Start")
   public void Start() {
     if (audioFocusSupported && !focusOn) {
       requestPermanentFocus();
@@ -373,7 +362,6 @@ public final class Player extends AndroidNonvisibleComponent
    * Suspends playing the media if it is playing.
    */
   @SimpleFunction
-  @JsMethod(name = "Pause")
   public void Pause() {
     if (player == null) return; //Do nothing if the player is not
     boolean wasPlaying = player.isPlaying();
@@ -403,7 +391,6 @@ public final class Player extends AndroidNonvisibleComponent
    * Stops playing the media and seeks to the beginning of the song.
    */
   @SimpleFunction
-  @JsMethod(name = "Stop")
   public void Stop() {
     if (audioFocusSupported && focusOn) {
       abandonFocus();
@@ -432,7 +419,6 @@ public final class Player extends AndroidNonvisibleComponent
    * Vibrates for specified number of milliseconds.
    */
   @SimpleFunction
-  @JsMethod(name = "Vibrate")
   public void Vibrate(long milliseconds) {
     vibe.vibrate(milliseconds);
   }

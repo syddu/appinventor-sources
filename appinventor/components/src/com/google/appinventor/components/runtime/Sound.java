@@ -34,8 +34,6 @@ import com.google.appinventor.components.runtime.util.TiramisuUtil;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import jsinterop.annotations.JsMethod;
-import jsinterop.annotations.JsProperty;
 
 /**
  * A multimedia component that plays sound files and optionally vibrates for the number of
@@ -71,6 +69,7 @@ import jsinterop.annotations.JsProperty;
     "immeditely after setting the source.</p>",
     category = ComponentCategory.MEDIA,
     nonVisible = true,
+    webemulation = true,
     iconName = "images/soundEffect.png")
 @SimpleObject
 @UsesPermissions(permissionNames = "android.permission.VIBRATE, android.permission.INTERNET")
@@ -161,7 +160,6 @@ public class Sound extends AndroidNonvisibleComponent
       category = PropertyCategory.BEHAVIOR,
       description = "The name of the sound file.  Only certain " +
       "formats are supported.  See http://developer.android.com/guide/appendix/media-formats.html.")
-  @JsProperty(name = "Source")
   public String Source() {
     return sourcePath;
   }
@@ -179,7 +177,6 @@ public class Sound extends AndroidNonvisibleComponent
   @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_ASSET,
       defaultValue = "")
   @SimpleProperty
-  @JsProperty(name = "Source")
   public void Source(@Asset String path) {
     final String tempPath = (path == null) ? "" : path;
     if (TiramisuUtil.requestAudioPermissions(form, path, new PermissionResultHandler() {
@@ -243,7 +240,6 @@ public class Sound extends AndroidNonvisibleComponent
       category = PropertyCategory.BEHAVIOR,
       description = "The minimum interval, in milliseconds, between sounds.  If you play a sound, " +
       "all further Play() calls will be ignored until the interval has elapsed.")
-  @JsProperty(name = "MinimumInterval")
   public int MinimumInterval() {
     return minimumInterval;
   }
@@ -258,7 +254,6 @@ public class Sound extends AndroidNonvisibleComponent
   @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_NON_NEGATIVE_INTEGER,
       defaultValue = "500")
   @SimpleProperty
-  @JsProperty(name = "MinimumInterval")
   public void MinimumInterval(int interval) {
     minimumInterval = interval;
   }
@@ -271,7 +266,6 @@ public class Sound extends AndroidNonvisibleComponent
    * Plays the sound.
    */
   @SimpleFunction(description = "Plays the sound specified by the Source property.")
-  @JsMethod
   public void Play() {
     if (soundId != 0) {
       long currentTime = System.currentTimeMillis();
@@ -333,7 +327,6 @@ public class Sound extends AndroidNonvisibleComponent
    * Pauses playing the sound if it is being played.
    */
   @SimpleFunction(description = "Pauses playing the sound if it is being played.")
-  @JsMethod
   public void Pause() {
     if (streamId != 0) {
       soundPool.pause(streamId);
@@ -346,7 +339,6 @@ public class Sound extends AndroidNonvisibleComponent
    * Resumes playing the sound after a pause.
    */
   @SimpleFunction(description = "Resumes playing the sound after a pause.")
-  @JsMethod
   public void Resume() {
     if (streamId != 0) {
       soundPool.resume(streamId);
@@ -359,7 +351,6 @@ public class Sound extends AndroidNonvisibleComponent
    * Stops playing the sound if it is being played.
    */
   @SimpleFunction(description = "Stops playing the sound if it is being played.")
-  @JsMethod
   public void Stop() {
     if (streamId != 0) {
       soundPool.stop(streamId);
@@ -373,7 +364,6 @@ public class Sound extends AndroidNonvisibleComponent
    * Vibrates for the specified number of milliseconds.
    */
   @SimpleFunction(description = "Vibrates for the specified number of milliseconds.")
-  @JsMethod
   public void Vibrate(int millisecs) {
     vibe.vibrate(millisecs);
   }

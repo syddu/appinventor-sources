@@ -639,6 +639,11 @@ public abstract class ComponentProcessor extends AbstractProcessor {
      */
     private boolean continuation;
 
+    /**
+     * Indicate whether the method was defined as a static or instance method.
+     */
+    private boolean isStatic;
+
     protected Method(String name, String description, String longDescription, boolean userVisible,
         boolean deprecated) {
       super(name, description, longDescription, "Method", userVisible, deprecated);
@@ -653,6 +658,13 @@ public abstract class ComponentProcessor extends AbstractProcessor {
         return returnType.toString();
       }
       return null;
+    }
+
+    /**
+     * Returns whether the method was defined statically on the component.
+     */
+    protected boolean isStatic() {
+      return isStatic;
     }
 
     /**
@@ -694,6 +706,7 @@ public abstract class ComponentProcessor extends AbstractProcessor {
       }
       that.returnType = returnType;
       that.returnHelperKey = returnHelperKey;
+      that.isStatic = isStatic;
       return that;
     }
 
@@ -1251,6 +1264,8 @@ public abstract class ComponentProcessor extends AbstractProcessor {
     private String versionName;
     private String dateBuilt;
     private String licenseName;
+    protected boolean webemulation;
+    protected boolean webemulationUnsupported;
 
     protected ComponentInfo(Element element) {
       super(element.getSimpleName().toString(),  // Short name
@@ -1352,6 +1367,8 @@ public abstract class ComponentProcessor extends AbstractProcessor {
           androidMinSdk = designerComponentAnnotation.androidMinSdk();
           versionName = designerComponentAnnotation.versionName();
           userVisible = designerComponentAnnotation.showOnPalette();
+          webemulation = designerComponentAnnotation.webemulation();
+          webemulationUnsupported = designerComponentAnnotation.webemulationUnsupported();
         }
       }
     }
@@ -2813,6 +2830,7 @@ public abstract class ComponentProcessor extends AbstractProcessor {
         boolean userVisible = simpleFunctionAnnotation.userVisible();
         boolean deprecated = elementUtils.isDeprecated(element);
         Method method = new Method(methodName, methodDescription, methodLongDescription, userVisible, deprecated);
+        method.isStatic = element.getModifiers().contains(Modifier.STATIC);
         componentInfo.methods.put(method.name, method);
 
         // Verify that this element has an ExecutableType.
@@ -3074,8 +3092,20 @@ public abstract class ComponentProcessor extends AbstractProcessor {
    * @throws IOException if the file cannot be created
    */
   protected FileObject createOutputFileObject(String fileName) throws IOException {
+    return createOutputFileObject(OUTPUT_PACKAGE, fileName);
+  }
+
+  /**
+   * Creates and returns a {@link FileObject} for output in the given {@code packageName}.
+   *
+   * @param packageName the package name for the output file
+   * @param fileName the name of the output file
+   * @return a new FileObject representing the target file
+   * @throws IOException if the file cannot be created
+   */
+  protected FileObject createOutputFileObject(String packageName, String fileName) throws IOException {
     return processingEnv.getFiler().
-      createResource(StandardLocation.SOURCE_OUTPUT, OUTPUT_PACKAGE, fileName);
+      createResource(StandardLocation.SOURCE_OUTPUT, packageName, fileName);
   }
 
   /**

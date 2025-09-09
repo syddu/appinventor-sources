@@ -47,8 +47,6 @@ import android.view.View.OnFocusChangeListener;
 import android.view.View.OnLongClickListener;
 
 import java.io.IOException;
-import jsinterop.annotations.JsMethod;
-import jsinterop.annotations.JsProperty;
 
 /**
  * Underlying base class for click-based components, not directly accessible to Simple programmers.
@@ -278,7 +276,6 @@ public abstract class ButtonBase extends AndroidViewComponent
       category = PropertyCategory.APPEARANCE,
       description = "Left, center, or right.",
       userVisible = false)
-  @JsProperty(name = "TextAlignment")
   public int TextAlignment() {
     return textAlignment;
   }
@@ -296,7 +293,6 @@ public abstract class ButtonBase extends AndroidViewComponent
   @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_TEXTALIGNMENT,
                     defaultValue = Component.ALIGNMENT_CENTER + "")
   @SimpleProperty(userVisible = false)
-  @JsProperty(name = "TextAlignment")
   public void TextAlignment(int alignment) {
     this.textAlignment = alignment;
     TextViewUtil.setAlignment(view, alignment, true);
@@ -313,7 +309,6 @@ public abstract class ButtonBase extends AndroidViewComponent
   @SimpleProperty(
       category = PropertyCategory.APPEARANCE,
       userVisible = false)
-  @JsProperty(name = "Shape")
   public int Shape() {
     return shape;
   }
@@ -338,7 +333,6 @@ public abstract class ButtonBase extends AndroidViewComponent
   @SimpleProperty(description = "Specifies the shape of the %type% (default, rounded," +
       " rectangular, oval). The shape will not be visible if an Image is being displayed.",
       userVisible = false)
-  @JsProperty(name = "Shape")
   public void Shape(int shape) {
     this.shape = shape;
     updateAppearance();
@@ -352,7 +346,6 @@ public abstract class ButtonBase extends AndroidViewComponent
   @SimpleProperty(
       category = PropertyCategory.APPEARANCE,
       description = "Image to display on button.")
-  @JsProperty(name = "Image")
   public String Image() {
     return imagePath;
   }
@@ -372,7 +365,6 @@ public abstract class ButtonBase extends AndroidViewComponent
   @SimpleProperty(description = "Specifies the path of the image of the %type%.  " +
       "If there is both an Image and a BackgroundColor, only the Image will be " +
       "visible.")
-  @JsProperty(name = "Image")
   public void Image(@Asset String path) {
     // If it's the same as on the prior call and the prior load was successful,
     // do nothing.
@@ -408,7 +400,6 @@ public abstract class ButtonBase extends AndroidViewComponent
   @SimpleProperty(
       category = PropertyCategory.APPEARANCE,
       description = "Returns the button's background color")
-  @JsProperty(name = "BackgroundColor")
   @IsColor
   public int BackgroundColor() {
     return backgroundColor;
@@ -428,7 +419,6 @@ public abstract class ButtonBase extends AndroidViewComponent
                     defaultValue = Component.DEFAULT_VALUE_COLOR_DEFAULT)
   @SimpleProperty(description = "Specifies the background color of the %type%. " +
       "The background color will not be visible if an Image is being displayed.")
-  @JsProperty(name = "BackgroundColor")
   public void BackgroundColor(int argb) {
     backgroundColor = argb;
     updateAppearance();
@@ -606,7 +596,6 @@ public abstract class ButtonBase extends AndroidViewComponent
   @SimpleProperty(
       category = PropertyCategory.BEHAVIOR,
       description = "If set, user can tap %type% to cause action.")
-  @JsProperty(name = "Enabled")
   public boolean Enabled() {
     return TextViewUtil.isEnabled(view);
   }
@@ -619,7 +608,6 @@ public abstract class ButtonBase extends AndroidViewComponent
   @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_BOOLEAN,
       defaultValue = "True")
   @SimpleProperty
-  @JsProperty(name = "Enabled")
   public void Enabled(boolean enabled) {
     TextViewUtil.setEnabled(view, enabled);
   }
@@ -634,7 +622,6 @@ public abstract class ButtonBase extends AndroidViewComponent
   @SimpleProperty(
       category = PropertyCategory.APPEARANCE,
       description = "If set, %type% text is displayed in bold.")
-  @JsProperty(name = "FontBold")
   public boolean FontBold() {
     return bold;
   }
@@ -649,7 +636,6 @@ public abstract class ButtonBase extends AndroidViewComponent
       defaultValue = "False")
   @SimpleProperty(
       category = PropertyCategory.APPEARANCE)
-  @JsProperty(name = "FontBold")
   public void FontBold(boolean bold) {
     this.bold = bold;
     TextViewUtil.setFontTypeface(container.$form(), view, fontTypeface, bold, italic);
@@ -666,7 +652,6 @@ public abstract class ButtonBase extends AndroidViewComponent
           defaultValue = "True")
   @SimpleProperty(description = "Specifies if a visual feedback should be shown " +
           " for a %type% that has an image as background.")
-  @JsProperty(name = "ShowFeedback")
   public void ShowFeedback(boolean showFeedback) {
     this.showFeedback =showFeedback;
   }
@@ -683,7 +668,6 @@ public abstract class ButtonBase extends AndroidViewComponent
     @SimpleProperty(
             category = PropertyCategory.APPEARANCE,
             description = "Returns the visual feedback state of the %type%")
-    @JsProperty(name = "ShowFeedback")
     public boolean ShowFeedback() {
         return showFeedback;
     }
@@ -698,7 +682,6 @@ public abstract class ButtonBase extends AndroidViewComponent
   @SimpleProperty(
       category = PropertyCategory.APPEARANCE,
       description = "If set, %type% text is displayed in italics.")
-  @JsProperty(name = "FontItalic")
   public boolean FontItalic() {
     return italic;
   }
@@ -713,7 +696,6 @@ public abstract class ButtonBase extends AndroidViewComponent
       defaultValue = "False")
   @SimpleProperty(
       category = PropertyCategory.APPEARANCE)
-  @JsProperty(name = "FontItalic")
   public void FontItalic(boolean italic) {
     this.italic = italic;
     TextViewUtil.setFontTypeface(container.$form(), view, fontTypeface, bold, italic);
@@ -730,7 +712,6 @@ public abstract class ButtonBase extends AndroidViewComponent
   @SimpleProperty(
       category = PropertyCategory.APPEARANCE,
       description = "Point size for %type% text.")
-  @JsProperty(name = "FontSize")
   public float FontSize() {
     return TextViewUtil.getFontSize(view, container.$context());
   }
@@ -744,7 +725,6 @@ public abstract class ButtonBase extends AndroidViewComponent
       defaultValue = Component.FONT_DEFAULT_SIZE + "")
   @SimpleProperty(
       category = PropertyCategory.APPEARANCE)
-  @JsProperty(name = "FontSize")
   public void FontSize(float size) {
     if (size == FONT_DEFAULT_SIZE && container.$form().BigDefaultText()) {
       TextViewUtil.setFontSize(view, 24);
@@ -766,7 +746,6 @@ public abstract class ButtonBase extends AndroidViewComponent
       category = PropertyCategory.APPEARANCE,
       description = "Font family for %type% text.",
       userVisible = false)
-  @JsProperty(name = "FontTypeface")
   public String FontTypeface() {
     return fontTypeface;
   }
@@ -785,7 +764,6 @@ public abstract class ButtonBase extends AndroidViewComponent
       defaultValue = Component.TYPEFACE_DEFAULT + "")
   @SimpleProperty(
       userVisible = false)
-  @JsProperty(name = "FontTypeface")
   public void FontTypeface(String typeface) {
     fontTypeface = typeface;
     TextViewUtil.setFontTypeface(container.$form(), view, fontTypeface, bold, italic);
@@ -799,7 +777,6 @@ public abstract class ButtonBase extends AndroidViewComponent
   @SimpleProperty(
       category = PropertyCategory.APPEARANCE,
       description = "Text to display on %type%.")
-  @JsProperty(name = "Text")
   public String Text() {
     return TextViewUtil.getText(view);
   }
@@ -812,7 +789,6 @@ public abstract class ButtonBase extends AndroidViewComponent
   @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_STRING,
       defaultValue = "")
   @SimpleProperty
-  @JsProperty(name = "Text")
   public void Text(String text) {
     TextViewUtil.setText(view, text);
   }
@@ -826,7 +802,6 @@ public abstract class ButtonBase extends AndroidViewComponent
   @SimpleProperty(
       category = PropertyCategory.APPEARANCE,
       description = "Color for button text.")
-  @JsProperty(name = "TextColor")
   @IsColor
   public int TextColor() {
     return textColor;
@@ -841,7 +816,6 @@ public abstract class ButtonBase extends AndroidViewComponent
   @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_COLOR,
       defaultValue = Component.DEFAULT_VALUE_COLOR_DEFAULT)
   @SimpleProperty
-  @JsProperty(name = "TextColor")
   public void TextColor(int argb) {
     // TODO(user): I think there is a way of only setting the color for the enabled state
     textColor = argb;

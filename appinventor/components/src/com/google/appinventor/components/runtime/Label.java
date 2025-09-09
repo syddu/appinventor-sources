@@ -21,7 +21,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import jsinterop.annotations.JsProperty;
 
 /**
  * Labels are components used to show text.
@@ -37,9 +36,10 @@ import jsinterop.annotations.JsProperty;
     "all of which can be set in the Designer or Blocks Editor, control " +
     "the appearance and placement of the text.",
     category = ComponentCategory.USERINTERFACE,
+    webemulation = true,
     iconName = "images/label.png")
 @SimpleObject
-public final class Label extends AndroidViewComponent implements AccessibleComponent{
+public class Label extends AndroidViewComponent implements AccessibleComponent{
 
   // default margin around a label in DPs
   // note that the spacing between adjacent labels will be twice this value
@@ -148,7 +148,6 @@ public final class Label extends AndroidViewComponent implements AccessibleCompo
   @SimpleProperty(
       category = PropertyCategory.APPEARANCE,
       userVisible = false)
-  @JsProperty(name = "TextAlignment")
   public int TextAlignment() {
     return textAlignment;
   }
@@ -166,7 +165,6 @@ public final class Label extends AndroidViewComponent implements AccessibleCompo
       defaultValue = Component.ALIGNMENT_NORMAL + "")
   @SimpleProperty(
       userVisible = false)
-  @JsProperty(name = "TextAlignment")
   public void TextAlignment(int alignment) {
     this.textAlignment = alignment;
     TextViewUtil.setAlignment(view, alignment, false);
@@ -180,7 +178,6 @@ public final class Label extends AndroidViewComponent implements AccessibleCompo
    */
   @SimpleProperty(
       category = PropertyCategory.APPEARANCE)
-  @JsProperty(name = "BackgroundColor")
   @IsColor
   public int BackgroundColor() {
     return backgroundColor;
@@ -195,7 +192,6 @@ public final class Label extends AndroidViewComponent implements AccessibleCompo
   @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_COLOR,
       defaultValue = Component.DEFAULT_VALUE_COLOR_NONE)
   @SimpleProperty
-  @JsProperty(name = "BackgroundColor")
   public void BackgroundColor(int argb) {
     backgroundColor = argb;
     if (argb != Component.COLOR_DEFAULT) {
@@ -215,7 +211,6 @@ public final class Label extends AndroidViewComponent implements AccessibleCompo
   @SimpleProperty(
       category = PropertyCategory.APPEARANCE,
       userVisible = false)
-  @JsProperty(name = "FontBold")
   public boolean FontBold() {
     return bold;
   }
@@ -230,7 +225,6 @@ public final class Label extends AndroidViewComponent implements AccessibleCompo
       defaultValue = "False")
   @SimpleProperty(
       userVisible = false)
-  @JsProperty(name = "FontBold")
   public void FontBold(boolean bold) {
     this.bold = bold;
     TextViewUtil.setFontTypeface(container.$form(), view, fontTypeface, bold, italic);
@@ -246,7 +240,6 @@ public final class Label extends AndroidViewComponent implements AccessibleCompo
   @SimpleProperty(
       category = PropertyCategory.APPEARANCE,
       userVisible = false)
-  @JsProperty(name = "FontItalic")
   public boolean FontItalic() {
     return italic;
   }
@@ -261,7 +254,6 @@ public final class Label extends AndroidViewComponent implements AccessibleCompo
       defaultValue = "False")
   @SimpleProperty(
       userVisible = false)
-  @JsProperty(name = "FontItalic")
   public void FontItalic(boolean italic) {
     this.italic = italic;
     TextViewUtil.setFontTypeface(container.$form(), view, fontTypeface, bold, italic);
@@ -278,7 +270,6 @@ public final class Label extends AndroidViewComponent implements AccessibleCompo
       + "margins (left, right, top, bottom) are the same.  This property has no effect "
       + "in the designer, where labels are always shown with margins.",
       userVisible = true)
-  @JsProperty(name = "HasMargins")
   public boolean HasMargins() {
     return hasMargins;
   }
@@ -295,7 +286,6 @@ public final class Label extends AndroidViewComponent implements AccessibleCompo
       defaultValue = "True")
   @SimpleProperty(
       userVisible = true)
-  @JsProperty(name = "HasMargins")
   public void HasMargins(boolean hasMargins) {
     this.hasMargins = hasMargins;
     setLabelMargins(hasMargins);
@@ -314,7 +304,6 @@ private void setLabelMargins(boolean hasMargins) {
    */
   @SimpleProperty(
       category = PropertyCategory.APPEARANCE)
-  @JsProperty(name = "FontSize")
   public float FontSize() {
     return TextViewUtil.getFontSize(view, container.$context());
   }
@@ -327,7 +316,6 @@ private void setLabelMargins(boolean hasMargins) {
   @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_NON_NEGATIVE_FLOAT,
       defaultValue = Component.FONT_DEFAULT_SIZE + "")
   @SimpleProperty
-  @JsProperty(name = "FontSize")
   public void FontSize(float size) {
 
     if (size == FONT_DEFAULT_SIZE && (isBigText || container.$form().BigDefaultText())) {
@@ -349,7 +337,6 @@ private void setLabelMargins(boolean hasMargins) {
   @SimpleProperty(
       category = PropertyCategory.APPEARANCE,
       userVisible = false)
-  @JsProperty(name = "FontTypeface")
   public String FontTypeface() {
     return fontTypeface;
   }
@@ -367,7 +354,6 @@ private void setLabelMargins(boolean hasMargins) {
       defaultValue = Component.TYPEFACE_DEFAULT + "")
   @SimpleProperty(
       userVisible = false)
-  @JsProperty(name = "FontTypeface")
   public void FontTypeface(String typeface) {
     fontTypeface = typeface;
     TextViewUtil.setFontTypeface(container.$form(), view, fontTypeface, bold, italic);
@@ -380,7 +366,6 @@ private void setLabelMargins(boolean hasMargins) {
    */
   @SimpleProperty(
       category = PropertyCategory.APPEARANCE)
-  @JsProperty(name = "Text")
   public String Text() {
     return TextViewUtil.getText(view);
   }
@@ -393,7 +378,6 @@ private void setLabelMargins(boolean hasMargins) {
   @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_TEXTAREA,
       defaultValue = "")
   @SimpleProperty
-  @JsProperty(name = "Text")
   public void Text(String text) {
     if (htmlFormat) {
       TextViewUtil.setTextHTML(view, text);
@@ -410,7 +394,6 @@ private void setLabelMargins(boolean hasMargins) {
    * @return the HTML content of the label
    */
   @SimpleProperty
-  @JsProperty(name = "HTMLContent")
   public String HTMLContent() {
     if (htmlFormat) {
       return htmlContent;
@@ -430,7 +413,6 @@ private void setLabelMargins(boolean hasMargins) {
       category = PropertyCategory.APPEARANCE,
       description = "If true, then this label will show html text else it " +
       "will show plain text. Note: Not all HTML is supported.")
-  @JsProperty(name = "HTMLFormat")
   public boolean HTMLFormat() {
     return htmlFormat;
   }
@@ -444,7 +426,6 @@ private void setLabelMargins(boolean hasMargins) {
   @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_BOOLEAN,
       defaultValue = "False")
   @SimpleProperty(userVisible = false)
-  @JsProperty(name = "HTMLFormat")
   public void HTMLFormat(boolean fmt) {
     htmlFormat = fmt;
     if (htmlFormat) {
@@ -464,7 +445,6 @@ private void setLabelMargins(boolean hasMargins) {
    */
   @SimpleProperty(
       category = PropertyCategory.APPEARANCE)
-  @JsProperty(name = "TextColor")
   @IsColor
   public int TextColor() {
     return textColor;
@@ -479,7 +459,6 @@ private void setLabelMargins(boolean hasMargins) {
   @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_COLOR,
       defaultValue = Component.DEFAULT_VALUE_COLOR_BLACK)
   @SimpleProperty
-  @JsProperty(name = "TextColor")
   public void TextColor(int argb) {
     textColor = argb;
     if (argb != Component.COLOR_DEFAULT) {

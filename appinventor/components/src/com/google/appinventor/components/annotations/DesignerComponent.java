@@ -112,4 +112,14 @@ public @interface DesignerComponent {
    * @return The name of the LICENSE file
    */
   String licenseName() default "";
+
+  /**
+   * Indicates whether the component should be made available in the web emulation system.
+   */
+  boolean webemulation() default false;
+
+  /**
+   * Indicates that the component cannot be emulated due to missing browser support.
+   */
+  boolean webemulationUnsupported() default false;
 }

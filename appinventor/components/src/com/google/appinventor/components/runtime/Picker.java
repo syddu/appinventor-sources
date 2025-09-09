@@ -12,7 +12,6 @@ import com.google.appinventor.components.annotations.SimpleObject;
 import com.google.appinventor.components.runtime.errors.StopBlocksExecution;
 import com.google.appinventor.components.runtime.util.AnimationUtil;
 import android.content.Intent;
-import jsinterop.annotations.JsMethod;
 
 /**
  * Abstract superclass for all of the "Picker" components.
@@ -57,7 +56,6 @@ public abstract class Picker extends ButtonBase implements ActivityResultListene
    * Opens the `%type%`, as though the user clicked on it.
    */
   @SimpleFunction(description = "Opens the %type%, as though the user clicked on it.")
-  @JsMethod
   public void Open() {
     click();
   }

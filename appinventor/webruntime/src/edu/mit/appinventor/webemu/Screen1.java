@@ -74,6 +74,7 @@ public class Screen1 extends ReplForm {
   }-*/;
 
   @Override
+  @SuppressWarnings("unusable-by-js")
   public void dispatchGenericEvent(Component component, String eventName, boolean notAlreadyHandled,
       Object[] args) {
     // TODO(ewpatton): Real implementation
