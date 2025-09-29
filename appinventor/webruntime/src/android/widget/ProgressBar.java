@@ -107,7 +107,7 @@ public class ProgressBar extends View {
     return mProgressDrawable;
   }
 
-  // Original function is doRefreshProgress
+  // Original function in Android source code is doRefreshProgress
   private void refreshProgress() {
     if (mIndeterminate) {
       mFill.getStyle().clearWidth();
@@ -120,3 +120,64 @@ public class ProgressBar extends View {
     mFill.getStyle().setWidth(ratio * 100.0, Style.Unit.PCT);
   }
 }
+
+// package android.widget;
+
+// import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+
+// import android.content.Context;
+// import android.util.AttributeSet;
+// import android.view.View;
+// import android.graphics.drawable.Drawable;
+
+// import com.google.gwt.dom.client.Document;
+// import com.google.gwt.dom.client.DivElement;
+// import com.google.gwt.dom.client.Element;
+// import com.google.gwt.dom.client.Style;
+// import com.google.gwt.user.client.DOM;
+
+// public class ProgressBar extends View {
+
+//   public ProgressBar(Element element) {
+//     super(element);
+//   }
+
+//   public int getMin() { return 0; }
+
+//   public void setMin(int min) {
+//     ;
+//   }
+
+//   public int getMax() { return 0; }
+
+//   public void setMax(int max) {
+//     ;
+//   }
+
+//   public int getProgress() {
+//     return 0;
+//   }
+
+//   public void setProgress(int value) {
+//     ;
+//   }
+
+//   public void setProgress(int value, boolean animate) {
+//     ;
+//   }
+
+//   public final void incrementProgressBy(int diff) {
+//     ;
+//   }
+
+//   public void isIndeterminate() {  ; }
+
+//   public void setIndeterminate(boolean indeterminate) {
+//     ;
+//   }
+
+
+//   public void getProgressDrawable() {
+//     ;
+//   }
+// }
