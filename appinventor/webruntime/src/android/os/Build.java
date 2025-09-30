@@ -31,5 +31,8 @@ public class Build {
     public static final int S = 31;
     public static final int TIRAMISU = 33;
     public static final int UPSIDE_DOWN_CAKE = 34;
+    //Added these
+    public static final int O = OREO;
+  	public static final int O_MR1 = OREO_1;
   }
 }
