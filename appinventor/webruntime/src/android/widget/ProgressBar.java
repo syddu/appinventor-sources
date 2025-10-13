@@ -40,6 +40,7 @@ public class ProgressBar extends View {
     getElement().getStyle().setDisplay(Style.Display.BLOCK);
     getElement().getStyle().setWidth(100, Style.Unit.PCT);
     getElement().getStyle().setProperty("minHeight", "8px");
+    // getElement().getStyle().setProperty("minWidth", "64px");
     getElement().getStyle().setOverflow(Style.Overflow.HIDDEN);
     mFill.getStyle().setDisplay(Style.Display.BLOCK);
     mFill.getStyle().setHeight(100, Style.Unit.PCT);
@@ -120,64 +121,3 @@ public class ProgressBar extends View {
     mFill.getStyle().setWidth(ratio * 100.0, Style.Unit.PCT);
   }
 }
-
-// package android.widget;
-
-// import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
-
-// import android.content.Context;
-// import android.util.AttributeSet;
-// import android.view.View;
-// import android.graphics.drawable.Drawable;
-
-// import com.google.gwt.dom.client.Document;
-// import com.google.gwt.dom.client.DivElement;
-// import com.google.gwt.dom.client.Element;
-// import com.google.gwt.dom.client.Style;
-// import com.google.gwt.user.client.DOM;
-
-// public class ProgressBar extends View {
-
-//   public ProgressBar(Element element) {
-//     super(element);
-//   }
-
-//   public int getMin() { return 0; }
-
-//   public void setMin(int min) {
-//     ;
-//   }
-
-//   public int getMax() { return 0; }
-
-//   public void setMax(int max) {
-//     ;
-//   }
-
-//   public int getProgress() {
-//     return 0;
-//   }
-
-//   public void setProgress(int value) {
-//     ;
-//   }
-
-//   public void setProgress(int value, boolean animate) {
-//     ;
-//   }
-
-//   public final void incrementProgressBy(int diff) {
-//     ;
-//   }
-
-//   public void isIndeterminate() {  ; }
-
-//   public void setIndeterminate(boolean indeterminate) {
-//     ;
-//   }
-
-
-//   public void getProgressDrawable() {
-//     ;
-//   }
-// }
