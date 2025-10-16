@@ -120,7 +120,7 @@ public class MediaUtil {
     }
   }
 
-  public static void loadMediaPlayer(MediaPlayer mp, Form form, String source) {
+  public static void loadMediaPlayer(MediaPlayer mp, Form form, String source) throws IOException {
     //TODO(lroman10): Real implementation
   }
 
