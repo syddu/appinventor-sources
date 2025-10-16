@@ -23,7 +23,9 @@ public class Build {
     public static final int LOLLIPOP_MR1 = 22;
     public static final int M = 23;
     public static final int N = 24;
+    public static final int O = 26;
     public static final int OREO = 26;
+    public static final int O_MR1 = 27;
     public static final int OREO_1 = 27;
     public static final int P = 28;
     public static final int Q = 29;

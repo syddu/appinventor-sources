@@ -4,6 +4,9 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.google.appinventor.components.runtime.Component;
+import com.google.gwt.dom.client.Style;
+
 public class ViewUtil {
 
   private static View childContainer;
@@ -19,6 +22,13 @@ public class ViewUtil {
 
   public static void setChildWidthForVerticalLayout(View child, int width) {
     // TODO(ewpatton): Real implementation
+    if (width > 0) {
+      child.getElement().getStyle().setWidth(width, Style.Unit.PX);
+    } else if (width == Component.LENGTH_PREFERRED) {
+      // TODO
+    } else if (width == Component.LENGTH_FILL_PARENT) {
+      child.getElement().getStyle().setProperty("width", "100%");
+    }
   }
 
   /**

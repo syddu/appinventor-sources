@@ -26,11 +26,15 @@ import com.google.appinventor.components.common.ComponentCategory;
 import com.google.appinventor.components.common.PropertyTypeConstants;
 import com.google.appinventor.components.common.YaVersion;
 
+import java.io.IOException;
+import jsinterop.annotations.JsMethod;
+import jsinterop.annotations.JsProperty;
 
 @DesignerComponent(
     version = YaVersion.LINEAR_PROGRESS_COMPONENT_VERSION,
     category = ComponentCategory.USERINTERFACE,
     description = "A visible component that indicates the progress of an operation using an animated linear bar.",
+    webemulation = true,
     iconName = "images/linearProgress.png"
 )
 @SimpleObject
@@ -82,6 +86,7 @@ public final class LinearProgress extends AndroidViewComponent {
   @SimpleProperty(description = "Set the lower range of the progress bar to min. "
       + "This function works only for devices with API >= 26",
       category = PropertyCategory.BEHAVIOR)
+  @JsProperty(name = "Minimum")
   public void Minimum(int value) {
     if (VERSION.SDK_INT >= Build.VERSION_CODES.O) {
       progressBar.setMin(value);
@@ -92,6 +97,7 @@ public final class LinearProgress extends AndroidViewComponent {
   }
 
   @SimpleProperty
+  @JsProperty(name = "Minimum")
   public int Minimum() {
     return VERSION.SDK_INT >= Build.VERSION_CODES.O ? progressBar.getMin() : 0;
   }
@@ -99,18 +105,21 @@ public final class LinearProgress extends AndroidViewComponent {
   @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_INTEGER, defaultValue = "100")
   @SimpleProperty(description = "Set the upper range of the progress bar max.",
       category = PropertyCategory.BEHAVIOR)
+  @JsProperty(name = "Maximum")
   public void Maximum(int value) {
     progressBar.setMax(value);
     Log.i(LOG_TAG, "setMax = " + value);
   }
 
   @SimpleProperty
+  @JsProperty(name = "Maximum")
   public int Maximum() {
     return progressBar.getMax();
   }
 
   @SimpleProperty(description = "Sets the current progress to the specified value. "
       + "Does not do anything if the progress bar is in indeterminate mode.")
+  @JsProperty(name = "Progress")
   public void Progress(int value) {
     if (VERSION.SDK_INT >= 24) {
       progressBar.setProgress(value, true);
@@ -121,6 +130,7 @@ public final class LinearProgress extends AndroidViewComponent {
   }
 
   @SimpleProperty(description = "Get the progress bar's current level of progress.")
+  @JsProperty(name = "Progress")
   public int Progress() {
     return progressBar.getProgress();
   }
@@ -135,6 +145,7 @@ public final class LinearProgress extends AndroidViewComponent {
       defaultValue = Component.DEFAULT_VALUE_COLOR_BLUE)
   @SimpleProperty(description = "Change the progress color of the progress bar.",
       category = PropertyCategory.APPEARANCE)
+  @JsProperty(name = "ProgressColor")
   public void ProgressColor(int color) {
     this.progressColor = color;
     Drawable drawable = progressBar.getProgressDrawable();
@@ -147,6 +158,7 @@ public final class LinearProgress extends AndroidViewComponent {
   }
 
   @SimpleProperty
+  @JsProperty(name = "ProgressColor")
   public int ProgressColor() {
     return this.progressColor;
   }
@@ -155,6 +167,7 @@ public final class LinearProgress extends AndroidViewComponent {
       defaultValue = Component.DEFAULT_VALUE_COLOR_BLUE)
   @SimpleProperty(description = "Change the indeterminate color of the progress bar.",
       category = PropertyCategory.APPEARANCE)
+  @JsProperty(name = "IndeterminateColor")
   public void IndeterminateColor(int color) {
     this.indeterminateColor = color;
     Drawable drawable = progressBar.getProgressDrawable();
@@ -167,6 +180,7 @@ public final class LinearProgress extends AndroidViewComponent {
   }
 
   @SimpleProperty
+  @JsProperty(name = "IndeterminateColor")
   public int IndeterminateColor() {
     return this.indeterminateColor;
   }
@@ -177,12 +191,14 @@ public final class LinearProgress extends AndroidViewComponent {
       + "In indeterminate mode, the progress is ignored and the "
       + "progress bar shows an infinite animation instead.",
       category = PropertyCategory.BEHAVIOR)
+  @JsProperty(name = "Indeterminate")
   public void Indeterminate(boolean enabled) {
     progressBar.setIndeterminate(enabled);
     Log.i(LOG_TAG, "Indeterminate is: " + enabled);
   }
 
   @SimpleProperty(description = "Indicate whether this progress bar is in indeterminate mode.")
+  @JsProperty(name = "Indeterminate")
   public boolean Indeterminate() {
     return progressBar.isIndeterminate();
   }
