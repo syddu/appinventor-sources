@@ -5,9 +5,13 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+import android.graphics.BlendModeColorFilter;
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 
 import com.google.gwt.dom.client.Document;
+import com.google.appinventor.components.runtime.Component;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
@@ -20,9 +24,9 @@ public class ProgressBar extends View {
   private int mMin = 0;
   private int mMax = 100;
   private int mProgress = 0;
-
   private boolean mIndeterminate = false;
-
+  private int mProgressColor = Component.COLOR_BLUE;
+  private int mIndeterminateColor = Component.COLOR_BLUE;
   private Drawable mProgressDrawable;
 
   public ProgressBar(Context context) { this(DOM.createDiv()); }
@@ -40,18 +44,27 @@ public class ProgressBar extends View {
     getElement().getStyle().setDisplay(Style.Display.BLOCK);
     getElement().getStyle().setWidth(100, Style.Unit.PCT);
     getElement().getStyle().setProperty("minHeight", "8px");
-    // getElement().getStyle().setProperty("minWidth", "64px");
     getElement().getStyle().setOverflow(Style.Overflow.HIDDEN);
     mFill.getStyle().setDisplay(Style.Display.BLOCK);
     mFill.getStyle().setHeight(100, Style.Unit.PCT);
-
     getElement().getStyle().setBackgroundColor("rgba(0,0,0,.12)");
-    mFill.getStyle().setBackgroundColor("dodgerblue");
 
-    // Drawable not functional yet
-    mProgressDrawable = new Drawable() { };
-
-    refreshProgress();
+    mProgressDrawable = new Drawable() { 
+      public void setColorFilter(ColorFilter colorFilter) {
+        if (colorFilter instanceof BlendModeColorFilter) {
+          setColorFilter(((BlendModeColorFilter) colorFilter).getColor(), PorterDuff.Mode.SRC_IN);
+        }
+      }
+      public void setColorFilter(int color, PorterDuff.Mode mode) {
+        if (mIndeterminate) {
+          mIndeterminateColor = color;
+        } else {
+          mProgressColor = color;
+        }
+        updateColor(color);
+      }
+    };
+  refreshProgress();
   }
 
   public int getMin() { return mMin; }
@@ -101,6 +114,7 @@ public class ProgressBar extends View {
   public void setIndeterminate(boolean indeterminate) {
     if (mIndeterminate == indeterminate) return;
     mIndeterminate = indeterminate;
+    updateColor(mIndeterminate ? mIndeterminateColor : mProgressColor);
     refreshProgress();
   }
 
@@ -108,7 +122,6 @@ public class ProgressBar extends View {
     return mProgressDrawable;
   }
 
-  // Original function in Android source code is doRefreshProgress
   private void refreshProgress() {
     if (mIndeterminate) {
       mFill.getStyle().clearWidth();
@@ -120,4 +133,12 @@ public class ProgressBar extends View {
     if (ratio > 1) ratio = 1;
     mFill.getStyle().setWidth(ratio * 100.0, Style.Unit.PCT);
   }
+  private void updateColor(int color){
+        float alpha = ((color >> 24) & 0xFF) / 255.0f;
+        int r = (color >> 16) & 0xFF;
+        int g = (color >> 8) & 0xFF;
+        int b = color & 0xFF;
+        mFill.getStyle().setBackgroundColor("rgba(" + r + "," + g + "," + b + "," + alpha + ")");
+  }
 }
+  
