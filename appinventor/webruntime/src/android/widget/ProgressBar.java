@@ -1,3 +1,8 @@
+// -*- mode: java; c-basic-offset: 2; -*-
+// Copyright 2023-2025 MIT, All rights reserved
+// Released under the Apache License, Version 2.0
+// http://www.apache.org/licenses/LICENSE-2.0
+
 package android.widget;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -24,18 +29,41 @@ public class ProgressBar extends View {
   private int mMin = 0;
   private int mMax = 100;
   private int mProgress = 0;
-  private boolean mIndeterminate = false;
+  private boolean mIndeterminate = true;
   private int mProgressColor = Component.COLOR_BLUE;
   private int mIndeterminateColor = Component.COLOR_BLUE;
-  private Drawable mProgressDrawable;
+  private ProgressDrawable mProgressDrawable;
+  private ProgressDrawable mIndeterminateDrawable;
+  private static final String ANIM_NAME = "indeterminateAnimation";
+  private static boolean sAnimInjected = false;
+  private static void injectAnimCss() {
+    if (sAnimInjected) return;
+    String css =
+        "@keyframes " + ANIM_NAME + "{"
+      + "0%{transform:translateX(0) scaleX(0);}"+
+        "40%{transform:translateX(0) scaleX(0.4);}"+
+        "100%{transform:translateX(100%) scaleX(0.5);}"+
+        "}"
+      + "@-webkit-keyframes " + ANIM_NAME + "{"
+      + "0%{-webkit-transform:translateX(0) scaleX(0);}"+
+        "40%{-webkit-transform:translateX(0) scaleX(0.4);}"+
+        "100%{-webkit-transform:translateX(100%) scaleX(0.5);}"+
+        "}";
 
+    Element styleEl = Document.get().createElement("style");
+    styleEl.setAttribute("type", "text/css");
+    styleEl.appendChild(Document.get().createTextNode(css));
+    Element head = Document.get().getElementsByTagName("head").getItem(0);
+    (head != null ? head : Document.get().getBody()).appendChild(styleEl);
+    sAnimInjected = true;
+  }
   public ProgressBar(Context context) { this(DOM.createDiv()); }
   public ProgressBar(Context context, AttributeSet attrs) { this(DOM.createDiv()); }
   public ProgressBar(Context context, AttributeSet attrs, int defStyleAttr) { this(DOM.createDiv()); }
 
   public ProgressBar(Element element) {
     super(element);
-
+    injectAnimCss();
     mLayoutParams = new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
 
     mFill = Document.get().createDivElement();
@@ -43,30 +71,30 @@ public class ProgressBar extends View {
 
     getElement().getStyle().setDisplay(Style.Display.BLOCK);
     getElement().getStyle().setWidth(100, Style.Unit.PCT);
-    getElement().getStyle().setProperty("minHeight", "8px");
+    getElement().getStyle().setProperty("minHeight", "4px");
     getElement().getStyle().setOverflow(Style.Overflow.HIDDEN);
     mFill.getStyle().setDisplay(Style.Display.BLOCK);
     mFill.getStyle().setHeight(100, Style.Unit.PCT);
     getElement().getStyle().setBackgroundColor("rgba(0,0,0,.12)");
+    
+    mProgressDrawable = new ProgressDrawable();
+    mIndeterminateDrawable = new ProgressDrawable();
+    setIndeterminate(true);
+    refreshProgress();
+  }
 
-    mProgressDrawable = new Drawable() { 
+  class ProgressDrawable extends Drawable {
       public void setColorFilter(ColorFilter colorFilter) {
         if (colorFilter instanceof BlendModeColorFilter) {
           setColorFilter(((BlendModeColorFilter) colorFilter).getColor(), PorterDuff.Mode.SRC_IN);
         }
       }
+      private int color;
       public void setColorFilter(int color, PorterDuff.Mode mode) {
-        if (mIndeterminate) {
-          mIndeterminateColor = color;
-        } else {
-          mProgressColor = color;
-        }
-        updateColor(color);
+        this.color = color;
+        updateColor(mIndeterminate ? mIndeterminateDrawable.color : mProgressDrawable.color);
       }
-    };
-  refreshProgress();
-  }
-
+    }
   public int getMin() { return mMin; }
 
   public void setMin(int min) {
@@ -112,9 +140,20 @@ public class ProgressBar extends View {
   public boolean isIndeterminate() { return mIndeterminate; }
 
   public void setIndeterminate(boolean indeterminate) {
-    if (mIndeterminate == indeterminate) return;
     mIndeterminate = indeterminate;
-    updateColor(mIndeterminate ? mIndeterminateColor : mProgressColor);
+    updateColor(mIndeterminate ? mIndeterminateDrawable.color : mProgressDrawable.color);
+    if (mIndeterminate) {
+      mFill.getStyle().setProperty("transform-origin", "0% 50%");
+      mFill.getStyle().setProperty("-webkit-transform-origin", "0% 50%");
+      mFill.getStyle().setProperty("animation", ANIM_NAME + " 1s infinite linear");
+      mFill.getStyle().setProperty("-webkit-animation", ANIM_NAME + " 1s infinite linear");
+    } else {
+      mFill.getStyle().clearProperty("animation");
+      mFill.getStyle().clearProperty("-webkit-animation");
+      mFill.getStyle().clearProperty("transform-origin");
+      mFill.getStyle().clearProperty("-webkit-transform-origin");
+      mFill.getStyle().clearProperty("transform");
+    }
     refreshProgress();
   }
 
@@ -122,9 +161,13 @@ public class ProgressBar extends View {
     return mProgressDrawable;
   }
 
+  public Drawable getIndeterminateDrawable() {
+    return mIndeterminateDrawable;
+  }
+
   private void refreshProgress() {
     if (mIndeterminate) {
-      mFill.getStyle().clearWidth();
+      mFill.getStyle().setWidth(100, Style.Unit.PCT);
       return;
     }
     double denom = Math.max(1.0, (double)(mMax - mMin));

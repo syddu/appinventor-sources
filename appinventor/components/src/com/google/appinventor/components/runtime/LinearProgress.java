@@ -1,6 +1,5 @@
 // -*- mode: java; c-basic-offset: 2; -*-
-// Copyright 2017-2023 Kodular, All rights reserved
-// Copyright 2023-2024 MIT, All rights reserved
+// Copyright 2023-2025 MIT, All rights reserved
 // Released under the Apache License, Version 2.0
 // http://www.apache.org/licenses/LICENSE-2.0
 
@@ -25,8 +24,6 @@ import com.google.appinventor.components.annotations.SimpleProperty;
 import com.google.appinventor.components.common.ComponentCategory;
 import com.google.appinventor.components.common.PropertyTypeConstants;
 import com.google.appinventor.components.common.YaVersion;
-
-import java.io.IOException;
 
 @DesignerComponent(
     version = YaVersion.LINEAR_PROGRESS_COMPONENT_VERSION,
@@ -158,7 +155,7 @@ public class LinearProgress extends AndroidViewComponent {
       category = PropertyCategory.APPEARANCE)
   public void IndeterminateColor(int color) {
     this.indeterminateColor = color;
-    Drawable drawable = progressBar.getProgressDrawable();
+    Drawable drawable = progressBar.getIndeterminateDrawable();
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
       drawable.setColorFilter(new BlendModeColorFilter(color, BlendMode.SRC_IN));
     } else {
