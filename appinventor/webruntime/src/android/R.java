@@ -3,6 +3,7 @@ package android;
 public class R {
   public static final class attr {
     public static final int state_enabled = 16842910;
+    public static final int progressBarStyle = 16842871;
     public static final int progressBarStyleHorizontal = 16842872;
   }
 
