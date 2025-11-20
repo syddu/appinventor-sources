@@ -34,7 +34,7 @@ import com.google.appinventor.components.common.YaVersion;
 )
 @SimpleObject
 
-public final class CircularProgress extends AndroidViewComponent {
+public class CircularProgress extends AndroidViewComponent {
   private static final String LOG_TAG = "CircularProgress";
   private Context context;
   private ProgressBar progressBar;
