@@ -35,6 +35,7 @@ public class ProgressBar extends View {
   private ProgressDrawable mProgressDrawable;
   private ProgressDrawable mIndeterminateDrawable;
   private static final String ANIM_NAME = "indeterminateAnimation";
+  private static final String PROGRESS_TRANSITION = "width 200ms linear";
   private static boolean sAnimInjected = false;
   private static void injectAnimCss() {
     if (sAnimInjected) return;
@@ -129,12 +130,12 @@ public class ProgressBar extends View {
     int v = value < mMin ? mMin : (value > mMax ? mMax : value);
     if (v != mProgress) {
       mProgress = v;
-      refreshProgress();
+      refreshProgress(animate);
     }
   }
 
   public final void incrementProgressBy(int diff) {
-    setProgress(mProgress + diff, false);
+    setProgress(mProgress + diff, true);
   }
 
   public boolean isIndeterminate() { return mIndeterminate; }
@@ -164,9 +165,24 @@ public class ProgressBar extends View {
   public Drawable getIndeterminateDrawable() {
     return mIndeterminateDrawable;
   }
-
+  private void animateProgress(double ratio, boolean animate) {
+    if (animate) {
+      mFill.getStyle().setProperty("transition", PROGRESS_TRANSITION);
+      mFill.getStyle().setProperty("-webkit-transition", PROGRESS_TRANSITION);
+    } else {
+      mFill.getStyle().clearProperty("transition");
+      mFill.getStyle().clearProperty("-webkit-transition");
+    }
+    mFill.getStyle().setWidth(ratio * 100.0, Style.Unit.PCT);
+  }
   private void refreshProgress() {
+    refreshProgress(false);
+  }
+
+  private void refreshProgress(boolean animate) {
     if (mIndeterminate) {
+      mFill.getStyle().clearProperty("transition");
+      mFill.getStyle().clearProperty("-webkit-transition");
       mFill.getStyle().setWidth(100, Style.Unit.PCT);
       return;
     }
@@ -174,7 +190,7 @@ public class ProgressBar extends View {
     double ratio = ((double)mProgress - (double)mMin) / denom;
     if (ratio < 0) ratio = 0;
     if (ratio > 1) ratio = 1;
-    mFill.getStyle().setWidth(ratio * 100.0, Style.Unit.PCT);
+    animateProgress(ratio, animate);
   }
   private void updateColor(int color){
         float alpha = ((color >> 24) & 0xFF) / 255.0f;
