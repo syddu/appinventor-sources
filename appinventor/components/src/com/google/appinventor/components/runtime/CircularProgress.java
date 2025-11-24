@@ -30,6 +30,7 @@ import com.google.appinventor.components.common.YaVersion;
     version = YaVersion.CIRCULAR_PROGRESS_COMPONENT_VERSION,
     category = ComponentCategory.USERINTERFACE,
     description = "A visible component that indicates the progress of an operation using an animated loop.",
+    webemulation = true,
     iconName = "images/circularProgress.png"
 )
 @SimpleObject
