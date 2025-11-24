@@ -624,6 +624,7 @@
         <include name="${components.pkg}/runtime/ButtonBase.java" />
         <include name="${components.pkg}/runtime/ChatBot.java" />
         <include name="${components.pkg}/runtime/CheckBox.java" />
+        <include name="${components.pkg}/runtime/CircularProgress.java" />
         <include name="${components.pkg}/runtime/Clock.java" />
         <include name="${components.pkg}/runtime/Deleteable.java" />
         <include name="${components.pkg}/runtime/Image.java" />

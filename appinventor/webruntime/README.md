@@ -27,6 +27,7 @@ The following components have been implemented, to varying degrees of completion
 - Clock (Date calculation blocks tbi)
 - Label
 - ListPicker (just to test opening other activities)
+- LinearProgress
 - Notifier (Dialogs need work)
 - Sound (Cleanup of old sounds doesn't work)
 - SpeechRecognizer (for browsers that support the Web Speech Recognition API, e.g., Chrome)
